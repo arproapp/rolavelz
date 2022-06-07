@@ -219,6 +219,12 @@ export default [
     component: () => import("../views/apps/ecommerce/products"),
   },
   {
+    path: "/ecommerce/products/editar/:id",
+    name: "products-editar",
+    meta: { title: "Products Editar", authRequired: true },
+    component: () => import("../components/EditarTarea"),
+  },
+  {
     path: "/ecommerce/product-details",
     name: "product-detail",
     meta: { title: "Product Details", authRequired: true },
