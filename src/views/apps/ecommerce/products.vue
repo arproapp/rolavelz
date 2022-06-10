@@ -1,4 +1,5 @@
 <script>
+import { mapState, mapActions } from "vuex";
 import Slider from "@vueform/slider";
 import Multiselect from "@vueform/multiselect";
 import Swal from "sweetalert2";
@@ -8,8 +9,6 @@ import PageHeader from "@/components/page-header";
 
 import animationData from "@/components/widgets/msoeawqm.json";
 import Lottie from "@/components/widgets/lottie.vue";
-import AgregarTarea from "@/components/AgregarTarea.vue";
-import ListadoTareas from "@/components/ListadoTareas.vue";
 
 export default {
   page: {
@@ -180,6 +179,8 @@ export default {
     };
   },
   computed: {
+    ...mapState("product", ["products"]),
+
     displayedPosts() {
       return this.paginate(this.productsData);
     },
@@ -212,6 +213,7 @@ export default {
     },
   },
   created() {
+    this.cargarLocalStorage();
     this.setPages(this.productsData);
   },
   filters: {
@@ -220,6 +222,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions("product", ["deleteProducts"]),
+    ...mapActions("product", ["cargarLocalStorage"]),
+
     deleteMultiple() {
       let ids_array = [];
       var items = document.getElementsByName("chk_child");
@@ -349,9 +354,7 @@ export default {
     PageHeader,
     lottie: Lottie,
     Slider,
-    Multiselect,
-    AgregarTarea,
-    ListadoTareas,
+    Multiselect
   },
 };
 </script>
@@ -1083,7 +1086,7 @@ export default {
                       <tbody class="list form-check-all">
                         <tr
                           class="gridjs-tr"
-                          v-for="(data, index) of resultQuery"
+                          v-for="(data, index) in products"
                           :key="index"
                         >
                           <td
@@ -1114,15 +1117,18 @@ export default {
                                 <div class="flex-grow-1">
                                   <h5 class="fs-14 mb-1">
                                     <router-link
-                                      to="/ecommerce/product-details"
+                                      :to="{
+                                        name: 'product-detail',
+                                        params: { id: data.id },
+                                      }"
                                       class="text-dark"
-                                      >{{ data.name }}
+                                      >{{ data.title }}
                                     </router-link>
                                   </h5>
                                   <p class="text-muted mb-0">
                                     Category :
                                     <span class="fw-medium">{{
-                                      data.category
+                                      data.brand
                                     }}</span>
                                   </p>
                                 </div>
@@ -1130,28 +1136,28 @@ export default {
                             </span>
                           </td>
                           <td data-column-id="stock" class="gridjs-td">
-                            {{ data.stock }}
+                            {{ data.price }}
                           </td>
                           <td data-column-id="price" class="gridjs-td">
                             {{ data.price }}
                           </td>
                           <td data-column-id="orders" class="gridjs-td">
-                            {{ data.orders }}
+                            {{ data.price }}
                           </td>
                           <td data-column-id="rating" class="gridjs-td">
                             <span
                               ><span
                                 class="badge bg-light text-body fs-12 fw-medium"
                                 ><i class="mdi mdi-star text-warning me-1"></i
-                                >{{ data.rating }}</span
+                                >{{ data.price }}</span
                               ></span
                             >
                           </td>
                           <td data-column-id="published" class="gridjs-td">
                             <span
-                              >{{ data.publishedDate[0]
+                              >{{ data.price
                               }}<small class="text-muted ms-1">{{
-                                data.publishedDate[1]
+                                data.price
                               }}</small></span
                             >
                           </td>
@@ -1170,7 +1176,10 @@ export default {
                                   <li>
                                     <router-link
                                       class="dropdown-item"
-                                      to="/ecommerce/product-details"
+                                      :to="{
+                                        name: 'product-detail',
+                                        params: { id: data.id },
+                                      }"
                                       ><i
                                         class="
                                           ri-eye-fill
@@ -1201,7 +1210,7 @@ export default {
                                   <li>
                                     <a
                                       class="dropdown-item"
-                                      @click="deletedata(data)"
+                                       @click="deleteProducts(data.id)"
                                     >
                                       <i
                                         class="
@@ -1351,7 +1360,7 @@ export default {
           </div>
           <!-- end card -->
         </div>
-        <!-- Agregar Tareas -->
+        <!-- Agregar Tareas
         <div class="col-xl-9 col-lg-8">
           <div>
             <div class="card">
@@ -1368,7 +1377,7 @@ export default {
             </div>
           </div>
         </div>
-        <!-- Agregar Tareas -->
+         Agregar Tareas -->
       </div>
       <!-- end col -->
     </div>

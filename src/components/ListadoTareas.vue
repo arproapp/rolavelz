@@ -18,13 +18,9 @@
         <td>{{ tarea.phone }}</td>
         <td>{{ tarea.email }}</td>
         <td>
-          <button class="btn btn-danger btn-sm" @click="deleteTarea(tarea.id)">
-            Eliminar
-          </button>
-          <router-link
-            :to="{ name: 'products-editar', params: { id: tarea.id }}"
-            class="btn btn-success"
-            ><i class="ri-add-line align-bottom me-1"></i> Add Product
+          <button class="btn btn-danger btn-sm" @click="deleteTareas(tarea.id)">Eliminar</button>
+          <router-link :to="{ name: 'products-editar', params: { id: tarea.id } }" class="btn btn-warning ml-2 btn-sm">
+            Editar
           </router-link>
         </td>
       </tr>
@@ -39,7 +35,11 @@ export default {
     ...mapState("invoice", ["tareas"]),
   },
   methods: {
-    ...mapActions("invoice", ["deleteTarea"]),
+    ...mapActions("invoice", ["deleteTareas"]),
+    ...mapActions("invoice", ["cargarLocalStorage"]),
+  },
+  created() {
+    this.cargarLocalStorage();
   },
 };
 </script>

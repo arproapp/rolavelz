@@ -1,6 +1,7 @@
 <script>
-import { ref } from 'vue';
- import { Thumbs } from 'swiper';
+import { mapState, mapActions } from "vuex";
+import { ref } from "vue";
+import { Thumbs } from "swiper";
 
 import Layout from "../../../layouts/main.vue";
 import appConfig from "../../../../app.config";
@@ -22,17 +23,17 @@ export default {
       },
     ],
   },
-   setup() {
-      const thumbsSwiper = ref(null);
-      const setThumbsSwiper = (swiper) => {
-        thumbsSwiper.value = swiper;
-      };
-      return {
-        Thumbs,
-        thumbsSwiper,
-        setThumbsSwiper,
-      };
-    },
+  setup() {
+    const thumbsSwiper = ref(null);
+    const setThumbsSwiper = (swiper) => {
+      thumbsSwiper.value = swiper;
+    };
+    return {
+      Thumbs,
+      thumbsSwiper,
+      setThumbsSwiper,
+    };
+  },
   data() {
     return {
       title: "Products Details",
@@ -80,6 +81,15 @@ export default {
     Swiper,
     SwiperSlide,
   },
+  computed: {
+    ...mapState("product", ["product"]),
+  },
+  methods: {
+    ...mapActions("product", ["setProduct"]),
+  },
+  created() {
+    this.setProduct(this.$route.params.id);
+  },
 };
 </script>
 
@@ -94,18 +104,14 @@ export default {
               <div class="col-xl-4 col-md-8 mx-auto">
                 <div class="product-img-slider sticky-side-div">
                   <swiper
-                  :modules="[Thumbs]"
-                   
+                    :modules="[Thumbs]"
                     class="product-thumbnail-slider p-2 rounded bg-light"
-                    
                     :navigation="{
                       nextEl: '.swiper-button-next',
                       prevEl: '.swiper-button-prev',
                     }"
                     :thumbs="{
                       swiper: thumbnailSwiper,
-                    
-                    
                     }"
                   >
                     <swiper-slide>
@@ -136,10 +142,9 @@ export default {
                         class="img-fluid d-block"
                       />
                     </swiper-slide>
-                   
                   </swiper>
-                   <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
                   <!-- end swiper thumbnail slide -->
                   <swiper
                     :modules="[Thumbs]"
@@ -148,8 +153,8 @@ export default {
                     :spaceBetween="10"
                     :slidesPerView="4"
                     :freeMode="true"
-                     watch-slides-progress
-                      @swiper="setThumbsSwiper"
+                    watch-slides-progress
+                    @swiper="setThumbsSwiper"
                   >
                     <swiper-slide>
                       <div class="nav-slide-item">
@@ -197,7 +202,7 @@ export default {
                 <div class="mt-xl-0 mt-5">
                   <div class="d-flex">
                     <div class="flex-grow-1">
-                      <h4>Full Sleeve Sweatshirt for Men (Pink)</h4>
+                      <h4>{{ product.title }}</h4>
                       <div class="hstack gap-3 flex-wrap">
                         <div>
                           <a href="#" class="text-primary d-block"
@@ -245,25 +250,34 @@ export default {
                   </div>
 
                   <div class="row mt-4">
-                    <div class="col-lg-3 col-sm-6" v-for="(item, index) of productDetailsWidgets" :key="index">
+                    <div
+                      class="col-lg-3 col-sm-6"
+                      v-for="(item, index) of productDetailsWidgets"
+                      :key="index"
+                    >
                       <div class="p-2 border border-dashed rounded">
                         <div class="d-flex align-items-center">
                           <div class="avatar-sm me-2">
                             <div
-                              class="avatar-title rounded bg-transparent text-success fs-24"
+                              class="
+                                avatar-title
+                                rounded
+                                bg-transparent
+                                text-success
+                                fs-24
+                              "
                             >
                               <i :class="`${item.icon}`"></i>
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <p class="text-muted mb-1">{{item.label}} :</p>
-                            <h5 class="mb-0">{{item.labelDetail}}</h5>
+                            <p class="text-muted mb-1">{{ item.label }} :</p>
+                            <h5 class="mb-0">{{ item.labelDetail }}</h5>
                           </div>
                         </div>
                       </div>
                     </div>
                     <!-- end col -->
-                   
                   </div>
 
                   <div class="row">
@@ -285,7 +299,15 @@ export default {
                               disabled
                             />
                             <label
-                              class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                              class="
+                                btn btn-soft-primary
+                                avatar-xs
+                                rounded-circle
+                                p-0
+                                d-flex
+                                justify-content-center
+                                align-items-center
+                              "
                               for="productsize-radio1"
                               >S</label
                             >
@@ -304,7 +326,15 @@ export default {
                               id="productsize-radio2"
                             />
                             <label
-                              class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                              class="
+                                btn btn-soft-primary
+                                avatar-xs
+                                rounded-circle
+                                p-0
+                                d-flex
+                                justify-content-center
+                                align-items-center
+                              "
                               for="productsize-radio2"
                               >M</label
                             >
@@ -322,7 +352,15 @@ export default {
                               id="productsize-radio3"
                             />
                             <label
-                              class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                              class="
+                                btn btn-soft-primary
+                                avatar-xs
+                                rounded-circle
+                                p-0
+                                d-flex
+                                justify-content-center
+                                align-items-center
+                              "
                               for="productsize-radio3"
                               >L</label
                             >
@@ -342,7 +380,15 @@ export default {
                               disabled
                             />
                             <label
-                              class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
+                              class="
+                                btn btn-soft-primary
+                                avatar-xs
+                                rounded-circle
+                                p-0
+                                d-flex
+                                justify-content-center
+                                align-items-center
+                              "
                               for="productsize-radio4"
                               >XL</label
                             >
@@ -364,7 +410,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-primary"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-primary
+                              "
                               disabled
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
@@ -378,7 +435,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-secondary"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-secondary
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -391,7 +459,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-success"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-success
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -404,7 +483,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-info"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-info
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -417,7 +507,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-warning"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-warning
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -430,7 +531,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-danger"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-danger
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -443,7 +555,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-light"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-light
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -456,7 +579,18 @@ export default {
                           >
                             <button
                               type="button"
-                              class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 text-dark"
+                              class="
+                                btn
+                                avatar-xs
+                                p-0
+                                d-flex
+                                align-items-center
+                                justify-content-center
+                                border
+                                rounded-circle
+                                fs-20
+                                text-dark
+                              "
                             >
                               <i class="ri-checkbox-blank-circle-fill"></i>
                             </button>
@@ -487,25 +621,45 @@ export default {
                         <ul class="list-unstyled">
                           <li class="py-1">
                             <i
-                              class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                              class="
+                                mdi mdi-circle-medium
+                                me-1
+                                text-muted
+                                align-middle
+                              "
                             ></i>
                             Full Sleeve
                           </li>
                           <li class="py-1">
                             <i
-                              class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                              class="
+                                mdi mdi-circle-medium
+                                me-1
+                                text-muted
+                                align-middle
+                              "
                             ></i>
                             Cotton
                           </li>
                           <li class="py-1">
                             <i
-                              class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                              class="
+                                mdi mdi-circle-medium
+                                me-1
+                                text-muted
+                                align-middle
+                              "
                             ></i>
                             All Sizes available
                           </li>
                           <li class="py-1">
                             <i
-                              class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                              class="
+                                mdi mdi-circle-medium
+                                me-1
+                                text-muted
+                                align-middle
+                              "
                             ></i>
                             4 Different Color
                           </li>
@@ -617,25 +771,45 @@ export default {
                           <div>
                             <p class="mb-2">
                               <i
-                                class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                                class="
+                                  mdi mdi-circle-medium
+                                  me-1
+                                  text-muted
+                                  align-middle
+                                "
                               ></i>
                               Machine Wash
                             </p>
                             <p class="mb-2">
                               <i
-                                class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                                class="
+                                  mdi mdi-circle-medium
+                                  me-1
+                                  text-muted
+                                  align-middle
+                                "
                               ></i>
                               Fit Type: Regular
                             </p>
                             <p class="mb-2">
                               <i
-                                class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                                class="
+                                  mdi mdi-circle-medium
+                                  me-1
+                                  text-muted
+                                  align-middle
+                                "
                               ></i>
                               100% Cotton
                             </p>
                             <p class="mb-0">
                               <i
-                                class="mdi mdi-circle-medium me-1 text-muted align-middle"
+                                class="
+                                  mdi mdi-circle-medium
+                                  me-1
+                                  text-muted
+                                  align-middle
+                                "
                               ></i>
                               Long sleeve
                             </p>
@@ -688,7 +862,11 @@ export default {
                               <div class="col">
                                 <div class="p-2">
                                   <div
-                                    class="progress animated-progess progress-sm"
+                                    class="
+                                      progress
+                                      animated-progess
+                                      progress-sm
+                                    "
                                   >
                                     <div
                                       class="progress-bar bg-success"
@@ -718,7 +896,11 @@ export default {
                               <div class="col">
                                 <div class="p-2">
                                   <div
-                                    class="progress animated-progess progress-sm"
+                                    class="
+                                      progress
+                                      animated-progess
+                                      progress-sm
+                                    "
                                   >
                                     <div
                                       class="progress-bar bg-success"
@@ -748,7 +930,11 @@ export default {
                               <div class="col">
                                 <div class="p-2">
                                   <div
-                                    class="progress animated-progess progress-sm"
+                                    class="
+                                      progress
+                                      animated-progess
+                                      progress-sm
+                                    "
                                   >
                                     <div
                                       class="progress-bar bg-success"
@@ -778,7 +964,11 @@ export default {
                               <div class="col">
                                 <div class="p-2">
                                   <div
-                                    class="progress animated-progess progress-sm"
+                                    class="
+                                      progress
+                                      animated-progess
+                                      progress-sm
+                                    "
                                   >
                                     <div
                                       class="progress-bar bg-warning"
@@ -809,7 +999,11 @@ export default {
                               <div class="col">
                                 <div class="p-2">
                                   <div
-                                    class="progress animated-progess progress-sm"
+                                    class="
+                                      progress
+                                      animated-progess
+                                      progress-sm
+                                    "
                                   >
                                     <div
                                       class="progress-bar bg-danger"
@@ -851,7 +1045,12 @@ export default {
                                   <div class="d-flex align-items-start mb-3">
                                     <div class="hstack gap-3">
                                       <div
-                                        class="badge rounded-pill bg-success mb-0"
+                                        class="
+                                          badge
+                                          rounded-pill
+                                          bg-success
+                                          mb-0
+                                        "
                                       >
                                         <i class="mdi mdi-star"></i> 4.2
                                       </div>
@@ -907,7 +1106,12 @@ export default {
                                   <div class="d-flex align-items-start mb-3">
                                     <div class="hstack gap-3">
                                       <div
-                                        class="badge rounded-pill bg-success mb-0"
+                                        class="
+                                          badge
+                                          rounded-pill
+                                          bg-success
+                                          mb-0
+                                        "
                                       >
                                         <i class="mdi mdi-star"></i> 4.0
                                       </div>
@@ -939,7 +1143,12 @@ export default {
                                   <div class="d-flex align-items-start mb-3">
                                     <div class="hstack gap-3">
                                       <div
-                                        class="badge rounded-pill bg-success mb-0"
+                                        class="
+                                          badge
+                                          rounded-pill
+                                          bg-success
+                                          mb-0
+                                        "
                                       >
                                         <i class="mdi mdi-star"></i> 4.2
                                       </div>
@@ -970,7 +1179,12 @@ export default {
                                   <div class="d-flex align-items-start mb-3">
                                     <div class="hstack gap-3">
                                       <div
-                                        class="badge rounded-pill bg-success mb-0"
+                                        class="
+                                          badge
+                                          rounded-pill
+                                          bg-success
+                                          mb-0
+                                        "
                                       >
                                         <i class="mdi mdi-star"></i> 4.1
                                       </div>

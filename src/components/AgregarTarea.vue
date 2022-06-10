@@ -1,7 +1,6 @@
 <script>
 import { mapActions } from "vuex";
 const shortid = require("shortid");
-
 export default {
   data() {
     return {
@@ -20,7 +19,6 @@ export default {
   },
   methods: {
     ...mapActions("invoice", ["setTareas"]),
-
     procesarFormulario() {
       this.tarea.id = shortid.generate();
       console.log(this.tarea);

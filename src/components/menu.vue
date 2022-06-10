@@ -251,15 +251,6 @@ export default {
                     </li>
                     <li class="nav-item">
                       <router-link
-                        to="/ecommerce/product-details"
-                        class="nav-link"
-                        data-key="t-product-Details"
-                      >
-                        {{ $t("t-product-Details") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link
                         to="/ecommerce/add-product"
                         class="nav-link"
                         data-key="t-create-product"
@@ -2009,15 +2000,6 @@ export default {
                         data-key="t-products"
                       >
                         {{ $t("t-products") }}
-                      </router-link>
-                    </li>
-                    <li class="nav-item">
-                      <router-link
-                        to="/ecommerce/product-details"
-                        class="nav-link"
-                        data-key="t-product-Details"
-                      >
-                        {{ $t("t-product-Details") }}
                       </router-link>
                     </li>
                     <li class="nav-item">
